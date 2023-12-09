@@ -1,0 +1,44 @@
+version: '3.3'
+
+volumes:
+  static:
+  media:
+  result:
+  pg_data:
+  redoc:
+
+services:
+  db:
+    image: postgres:13
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  backend:
+    image: arhside3/foodgram_backend
+    env_file: .env
+    volumes:
+      - static:/app/static
+      - media:/app/media
+      - redoc:/app/api/docs
+    depends_on:
+      - db
+
+  frontend:
+    image: arhside3/foodgram_frontend
+    volumes:
+      - static:/static
+
+  nginx:
+    image: nginx:1.19.3
+    ports:
+      - "9800:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/sites-enabled/default
+      - static:/static
+      - media:/media
+      - ../docs/:/usr/share/nginx/html/api/docs/
+    depends_on:
+      - backend
+      - frontend
+    env_file: .env
