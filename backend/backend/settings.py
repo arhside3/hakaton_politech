@@ -11,12 +11,10 @@ SECRET_KEY = os.getenv('SECRET_KEY', '53252')
 DEBUG = os.environ.get('DEBUG', False) == 'True'
 
 ALLOWED_HOSTS = [
-    '158.160.14.198',
-    '127.0.0.1',
     'localhost',
-    'arhsidefood.hopto.org',
+    '127.0.0.1',
 ]
-CSRF_TRUSTED_ORIGINS = ['https://arhsidefood.hopto.org']
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -146,3 +144,6 @@ SHORT_CHARFIELD = 50
 MID_CHARFIELD = 150
 LONG_CHARFIELD = 254
 NAME_LEGNTH = 256
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$' 
